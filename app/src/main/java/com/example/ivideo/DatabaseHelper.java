@@ -2,6 +2,7 @@ package com.example.ivideo;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -17,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         db.execSQL("create table user (email text primary key , password text)");
         db.execSQL("create table movie (vid text primary key , vname text, num text, price text)");
-        db.execSQL("create table cart (mname text primary key , spinner1 text, mprice text)");
+        db.execSQL("create table cart (email text, mname text primary key , mqnt text, mprice text)");
     }
 
     @Override
@@ -84,11 +85,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     //Insert to cart
-    public  boolean addCart(String mname, String spinner1, String mprice){
+    public  boolean addCart(String email,String mname, String mqnt , String mprice){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put("email", email);
         contentValues.put("mname", mname);
-        contentValues.put("spinner1", spinner1);
+        contentValues.put("mqnt", mqnt);
         contentValues.put("mprice", mprice);
 
         long add= db.insert("cart",null,contentValues);
@@ -97,11 +99,35 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         else return true;
     }
 
-    /*
+
     public  Cursor getAllData(){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor result =db.rawQuery("select * from movie",null);
-        return  result;
+        Cursor cursor =db.rawQuery("select mname,mqnt,mprice from cart",null);
+        return  cursor;
     }
-    */
+
+    //dispaly cart
+
+    public Cursor viewCart(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor data = db.rawQuery("select mname,mqnt,mprice from cart",null);
+
+        return data;
+    }
+
+    //update cart
+
+    public  boolean updarte(String mname, String mqnt, String mprice, Intent i1){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("movie_name",mname);
+        contentValues.put("movie_quality",mqnt);
+        contentValues.put("movie_price",mprice);
+
+        //contentValues.put("roll_no",i1);
+        db.update("cart",contentValues, "roll_no=?", new String[]{String.valueOf(i1)});
+
+        return true;
+    }
+
 }

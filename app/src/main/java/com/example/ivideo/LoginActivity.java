@@ -32,9 +32,16 @@ public class LoginActivity extends AppCompatActivity {
                 String email = e1.getText().toString();
                 String password = e2.getText().toString();
 
-                Intent intent = new Intent(LoginActivity.this, ContentActivity.class);
+                Demo.message = e1.getText().toString();
 
+
+
+                Intent intent = new Intent(LoginActivity.this, ContentActivity.class);
+                Intent intent1 = new Intent(getApplicationContext(),AddCartActivity.class);
                 startActivity(intent);
+                //startActivity(intent1);
+
+
 
                 Boolean chkEmailPassword = db.chkEmailPassword(email,password);
 
@@ -45,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Incorrect emaill or password",Toast.LENGTH_SHORT).show();
 
                 }
+
 
             }
         });
