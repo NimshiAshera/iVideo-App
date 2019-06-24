@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">iVideo</string>
+    <string name="roll_no">roll_no</string>
+
+    <string-array name="quality">
+        <item>240p</item>
+        <item>360p</item>
+        <item>480p</item>
+        <item>720p</item>
+    </string-array>
+
+
 </resources>
